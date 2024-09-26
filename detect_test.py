@@ -3,7 +3,6 @@ import os
 import platform
 import sys
 from pathlib import Path
-
 import torch
 
 FILE = Path(__file__).resolve()
@@ -12,12 +11,12 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-from models.common import DetectMultiBackend
-from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
-from utils.general import (LOGGER, Profile, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
+from yolov9.models.common import DetectMultiBackend
+from yolov9.utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
+from yolov9.utils.general import (LOGGER, Profile, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
-from utils.plots import Annotator, colors, save_one_box
-from utils.torch_utils import select_device, smart_inference_mode
+from yolov9.utils.plots import Annotator, colors, save_one_box
+from yolov9.utils.torch_utils import select_device, smart_inference_mode
 
 class detect():
 
@@ -25,7 +24,7 @@ class detect():
             source,
     weights='yolov9/yolov9-s-converted.pt',  # model path or triton URL
     # source='yolov9/data/images/horses.jpg',  # file/dir/URL/glob/screen/0(webcam)
-    data='./data/coco.yaml',  # dataset.yaml path
+    data='yolov9/data/coco.yaml',  # dataset.yaml path
     imgsz=(640, 640),  # inference size (height, width)
     conf_thres=0.25,  # confidence threshold
     iou_thres=0.45,  # NMS IOU threshold
@@ -41,7 +40,7 @@ class detect():
     augment=False,  # augmented inference
     visualize=False,  # visualize features
     update=False,  # update all models
-    project='./runs/detect',  # save results to project/name
+    project='yolov9/runs/detect',  # save results to project/name
     name='exp',  # save results to project/name
     exist_ok=False,  # existing project/name ok, do not increment
     line_thickness=3,  # bounding box thickness (pixels)

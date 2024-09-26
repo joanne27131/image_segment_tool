@@ -7,63 +7,8 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import *
 import cv2
 import os
-from sam_hq.demo.sam_get_mask import mask
-
-# class MainWindow(QMainWindow):
-#     def __init__(self):
-#         super().__init__()
-
-#         # 设置主窗口
-#         self.setWindowTitle('SAM Desktop App')
-#         self.setGeometry(100, 100, 800, 600)
-
-#         # 创建菜单栏
-#         self.create_menu()
-
-#         # 创建主显示区域
-#         self.image_label = QLabel()
-#         self.image_label.setAlignment(Qt.AlignCenter)
-#         self.setCentralWidget(self.image_label)
-
-#     def create_menu(self):
-#         menubar = self.menuBar()
-
-#         # 文件菜单
-#         file_menu = menubar.addMenu('File')
-#         open_action = QAction('Open', self)
-#         open_action.triggered.connect(self.open_image)
-#         file_menu.addAction(open_action)
-
-#         exit_action = QAction('Exit', self)
-#         exit_action.triggered.connect(self.close)
-#         file_menu.addAction(exit_action)
-
-#         # 编辑菜单（可以添加更多功能）
-#         edit_menu = menubar.addMenu('Edit')
-#         segment_action = QAction('Segment Image', self)
-#         segment_action.triggered.connect(self.segment_image)
-#         edit_menu.addAction(segment_action)
-
-#     def open_image(self):
-#         options = QFileDialog.Options()
-#         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.bmp);;All Files (*)", options=options)
-#         if file_name:
-#             self.display_image(file_name)
-#         pass
-
-#     def segment_image(self):
-#         # 这里实现图像分割功能
-#         pass
-
-#     def display_image(self, image_path):
-#         pixmap = QPixmap(image_path)
-#         self.image_label.setPixmap(pixmap)
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     main_window = MainWindow()
-#     main_window.show()
-#     sys.exit(app.exec_())
+# from sam_hq.demo.sam_get_mask import mask
+from sam_get_mask import mask
 
 class MyApp(QMainWindow, Ui_MainWindow):
     def __init__(self):

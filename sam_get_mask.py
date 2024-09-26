@@ -5,10 +5,10 @@ import cv2
 from segment_anything import sam_model_registry, SamPredictor, SamAutomaticMaskGenerator
 import os
 import sys
-yolo_path = 'C:/Users/joann/Desktop/Joanne_Project/Image_Recognition_Side_Project'
-sys.path.append(yolo_path)
-from yolov9.detect_test import detect
-sys.path.remove(yolo_path)
+# yolo_path = 'C:/Users/joann/Desktop/Joanne_Project/Image_Recognition_Side_Project'
+# sys.path.append(yolo_path)
+from detect_test import detect
+# sys.path.remove(yolo_path)
 yolo_detect = detect()
 
 class mask():
@@ -62,7 +62,7 @@ class mask():
         plt.savefig(filename +'.png',bbox_inches='tight',pad_inches=-0.1)
         plt.close()
 
-    def save_idivisual_imag(self, image, mask) :
+    def save_idivisual_imag(self, image, mask, filename) :
         # Check image and mask is None or not
         if image is None:
             raise ValueError("Error: 'image' is None. Please check if the image is correctly loaded.")
@@ -83,7 +83,8 @@ class mask():
         segmented_object = cv2.bitwise_and(image, image, mask=masks)
         plt.imshow(segmented_object)
         plt.axis('off')
-        # plt.savefig(filename+'_'+str(i)+'.png',bbox_inches='tight',pad_inches=-0.1)
+        plt.show()
+        plt.savefig(filename,bbox_inches='tight',pad_inches=-0.1)
         plt.close()
         return segmented_object
 
@@ -103,8 +104,9 @@ class mask():
         # For images contain single object, we suggest to set hq_token_only = True
         # For quantiative evaluation on COCO/YTVOS/DAVIS/UVO/LVIS etc., we set hq_token_only = False
 
+        file_name = os.path.basename(image_path)
+
         image = cv2.imread(image_path)
-        print(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         predictor.set_image(image)
 
@@ -118,12 +120,13 @@ class mask():
         input_point, input_label = None, None
 
         batch_box = False if input_box_1 is None else len(input_box_1)>1 
-        result_path = 'sam_hq/demo/hq_sam_result/'
-        indivisual_result_path = 'sam_hq/demo/hq_sam_indivisual_result/'
+        result_path = 'hq_sam_result/'
+        indivisual_result_path = 'hq_sam_indivisual_result/'
         os.makedirs(result_path, exist_ok=True)
         os.makedirs(indivisual_result_path, exist_ok=True)
 
         if not batch_box: 
+            input_box_1 = input_box_1.cpu().numpy()
             masks, scores, logits = predictor.predict(
                 point_coords=input_point,
                 point_labels=input_label,
@@ -131,8 +134,8 @@ class mask():
                 multimask_output=False,
                 hq_token_only=hq_token_only, 
             )
-            # self.show_res(masks,scores,input_point, input_label, input_box_1, result_path + 'example'+str(i), image)
-            return self.save_idivisual_imag(image, masks)
+            self.show_res(masks,scores,input_point, input_label, input_box_1, result_path + file_name, image)
+            return self.save_idivisual_imag(image, masks, indivisual_result_path+file_name)
             
         else:
             masks, scores, logits = predictor.predict_torch(
@@ -145,5 +148,5 @@ class mask():
             masks = masks.squeeze(1).cpu().numpy()
             scores = scores.squeeze(1).cpu().numpy()
             input_box = input_box_1.cpu().numpy()
-            # self.show_res_multi(masks, scores, input_point, input_label, input_box, result_path + 'example'+str(i), image)
-            return self.save_idivisual_imag(image, masks)
+            self.show_res_multi(masks, scores, input_point, input_label, input_box, result_path+file_name, image)
+            return self.save_idivisual_imag(image, masks, indivisual_result_path+file_name)
