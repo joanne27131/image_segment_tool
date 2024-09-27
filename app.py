@@ -9,6 +9,7 @@ import cv2
 import os
 # from sam_hq.demo.sam_get_mask import mask
 from sam_get_mask import mask
+import matplotlib.pyplot as plt
 
 class MyApp(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -79,6 +80,9 @@ class MyApp(QMainWindow, Ui_MainWindow):
         except Exception as e:
             print(f"Error generating mask: {e}")
             return
+
+        # convert BGR to RGB
+        masked_image = cv2.cvtColor(masked_image, cv2.COLOR_BGR2RGB)
 
         # Convert to QImage and display in QGraphicsView
         height, width, channel = masked_image.shape

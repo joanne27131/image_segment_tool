@@ -46,7 +46,7 @@ class mask():
             
             print(f"Score: {score:.3f}")
             plt.axis('off')
-            plt.savefig(filename+'_'+str(i)+'.png',bbox_inches='tight',pad_inches=-0.1)
+            plt.savefig(filename,bbox_inches='tight',pad_inches=-0.1)
             plt.close()
 
     def show_res_multi(self, masks, scores, input_point, input_label, input_box, filename, image):
@@ -59,7 +59,7 @@ class mask():
         for score in scores:
             print(f"Score: {score:.3f}")
         plt.axis('off')
-        plt.savefig(filename +'.png',bbox_inches='tight',pad_inches=-0.1)
+        plt.savefig(filename,bbox_inches='tight',pad_inches=-0.1)
         plt.close()
 
     def save_idivisual_imag(self, image, mask, filename) :
@@ -83,9 +83,9 @@ class mask():
         segmented_object = cv2.bitwise_and(image, image, mask=masks)
         plt.imshow(segmented_object)
         plt.axis('off')
-        plt.show()
         plt.savefig(filename,bbox_inches='tight',pad_inches=-0.1)
         plt.close()
+        print('save indivisual image')
         return segmented_object
 
     def get_mask(self, image_path):
