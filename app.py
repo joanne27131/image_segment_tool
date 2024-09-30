@@ -33,6 +33,9 @@ class MyApp(QMainWindow, Ui_MainWindow):
 
         self.gen_mask = mask()
         self.file_name = None
+        self.graphicsView.setScene(QGraphicsScene(self))
+        self.pixmap_item = None  # To store the current pixmap item
+
 
     def open_image(self):
         options = QFileDialog.Options()
@@ -42,37 +45,19 @@ class MyApp(QMainWindow, Ui_MainWindow):
         pass
     
     def display_image(self, image_path):
-        # self.image = cv2.imread(image_path)
         scene = QGraphicsScene()
         pixmap = QPixmap(image_path)
-        pixmap_item = QGraphicsPixmapItem(pixmap)
-        scene.addItem(pixmap_item)
+        self.pixmap_item = QGraphicsPixmapItem(pixmap)
+        scene.addItem(self.pixmap_item)
         self.graphicsView.setScene(scene)
-        # self.graphicsView.setFixedSize(pixmap.width(), pixmap.height())
-        self.graphicsView.fitInView(pixmap_item, mode=1)
+        self.graphicsView.fitInView(self.pixmap_item, mode=1)
 
     def save_image(self):
-        save_path, _ = QFileDialog.getSaveFileName(self, "Save Image", "", "Images (*.png *.jpg *.jpeg *.bmp)")
-    
-        if save_path:
-            # 从场景中提取 QPixmap 项
-            scene = self.graphicsView.scene()
-            if scene:
-            #     # 创建一个新的 QPixmap，并指定场景的大小
-            #     pixmap = QPixmap(self.graphicsView.viewport().size())
-
-            #     # 将 QGraphicsView 的内容渲染到 QPixmap 上
-            #     painter = QtGui.QPainter(pixmap)
-            #     self.graphicsView.render(painter)
-            #     painter.end()
-                rect = scene().sceneRect()
-                pixmap = QtGui.QImage(rect.height(),rect.width(),QtGui.QImage.Format_ARGB32_Premultiplied)
-                painter = QtGui.QPainter(pixmap)
-                rectf = QRectF(0,0,pixmap.rect().height(),pixmap.rect().width())
-                self.scene().render(painter,rectf,rect)
-
-                # 保存图像
-                pixmap.save(save_path)
+        if self.pixmap_item:
+            file_name, _ = QFileDialog.getSaveFileName(self, "Save Image File", "", "PNG files (*.png);;JPEG files (*.jpg *.jpeg)")
+            if file_name:
+                pixmap = self.pixmap_item.pixmap()
+                pixmap.save(file_name)                
 
     def get_mask(self):
         try:
@@ -92,10 +77,10 @@ class MyApp(QMainWindow, Ui_MainWindow):
         # Display the masked image
         pixmap = QPixmap.fromImage(q_image)
         scene = QGraphicsScene()
-        pixmap_item = QGraphicsPixmapItem(pixmap)
-        scene.addItem(pixmap_item)
+        self.pixmap_item = QGraphicsPixmapItem(pixmap)
+        scene.addItem(self.pixmap_item)
         self.graphicsView.setScene(scene)
-        self.graphicsView.fitInView(pixmap_item, mode=1)
+        self.graphicsView.fitInView(self.pixmap_item, mode=1)
 
 
 if __name__ == "__main__":
