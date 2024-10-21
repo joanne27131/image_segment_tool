@@ -2,12 +2,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QMenuBar, QMenu, QAction, QGraphicsScene, QGraphicsPixmapItem
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QFileDialog
-from app_ui import Ui_MainWindow  # 导入生成的 UI 类
+from app_ui import Ui_MainWindow
 from PyQt5 import QtGui
 from PyQt5.QtCore import *
 import cv2
 import os
-# from sam_hq.demo.sam_get_mask import mask
 from sam_get_mask import mask
 import matplotlib.pyplot as plt
 

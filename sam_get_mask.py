@@ -69,7 +69,7 @@ class mask():
         if mask is None:
             raise ValueError("Error: 'mask' is None. Please check if the mask is correctly generated or passed.")
         
-        # 如果 masks 是三维的（即包含多个 mask），选择一个或合并所有 mask
+        # 如果 masks 是三维的（即包含多个 mask），選擇一個或合併所有 mask
         if len(mask.shape) == 3:
             # 使用合并 mask 的方法
             mask = np.max(mask, axis=0)  # 合并所有的 mask
